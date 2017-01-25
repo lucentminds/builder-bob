@@ -22,6 +22,11 @@ Bob.createBatch = function(){
     return self;
 };// /createBatch()
 
+Bob.createJob = function(){
+    var batch = Bob.createBatch();
+    return batch.createJob.apply( batch, arguments );
+};// /createJob()
+
 Bob.watch = function(){
     return util.watch.apply( this, arguments );
 };// /watch()

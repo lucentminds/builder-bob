@@ -21,10 +21,8 @@ var Q = require( 'q' );
 console.log( 'buildfile!' );
 var build = module.exports = function( bob ){ // jshint ignore:line
 
-    
-
-
-    var oJobBuild = bob.createJob( 'build' );
+    var oBatch = bob.createBatch( 'main' );
+    var oJobBuild = oBatch.createJob( 'build' );
 
     oJobBuild.addTask( 'task1', {
         enabled: false,
@@ -64,7 +62,7 @@ var build = module.exports = function( bob ){ // jshint ignore:line
         console.log( '\ntest done!' );
     });
 
-    bob.createJob( 'watch', function(){
+    oBatch.createJob( 'watch', function(){
         // Run the build task then set up the watcher.
         return oJobBuild.run()
         .then(function(){
@@ -78,6 +76,6 @@ var build = module.exports = function( bob ){ // jshint ignore:line
         });
     });
 
-    return bob;
+    return oBatch;
 
 };// /build()

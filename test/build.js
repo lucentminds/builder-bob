@@ -13,7 +13,7 @@
 /* jslint -W024 */
 
 var bob = require( '../builder-bob' );
-var job = require( './bobfile.js' )( bob );
+var batch = require( './bobfile.js' )( bob );
 
 
-bob.getJob( 'watch' ).run();
+batch.getJob( 'watch' ).run();

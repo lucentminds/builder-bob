@@ -1,8 +1,5 @@
 # builder-bob
-Yet another builder app.
-
-# NOTE:
-Make it so that if a build job is running, it MUST complete before allowing another to run. This is because of file contention issues. So make a combo throttle/debouncer to wait until previous job is complete before allowing the latest request.
+![builder-bob](https://cloud.githubusercontent.com/assets/338596/22276551/0625116a-e27a-11e6-9e18-93cf3bc3eb2a.png) Yet another builder tool.
 
 ```shell
 npm install git+https://github.com/lucentminds/builder-bob.git
@@ -11,27 +8,31 @@ npm install git+https://github.com/lucentminds/builder-bob.git
 ## Example bobfile
 
 ```js
+var Q = require( 'q' );
+
 module.exports = function( bob ) {
         
-    var oBuild = bob.createJob( 'task' );
+    var job = bob.createJob( 'build' );
 
     // Do this first.
-    oBuild.addTask( 'empty', {
-        enabled: false,
-        dirs: [
-            "./build",
-            "./temp"
-        ]
+    job.addTask( 'empty', function(){
+        var deferred = Q.defer();
+
+        setTimeout( deferred.resolve, 1000 );
+
+        return deferred.promise;
     });
 
     // Do this second.
-    oBuild.addTask( 'copy', {
-        name: "Copy php files to build",
-        enabled: true,
-        do: function(){
-            // Create promises here.
-        }
+    job.addTask( 'copy', function(){
+        var deferred = Q.defer();
+
+        deferred.resolve();
+
+        return deferred.promise;
     });
+
+    return job.batch;
 };// /exports()
 ```
 
@@ -40,13 +41,12 @@ Or all at once.
 ```js
 module.exports = function( bob ) {
         
-    var oBuild = bob.createJob( 'task' );
+    var job = bob.createJob( 'task' );
 
-    oBuild.setTasks([
+    job.setTasks([
         // Do this first.
         {
             task: 'empty',
-            enabled: false,
             do: function(){
                 // Create promises here.
             }
@@ -55,11 +55,18 @@ module.exports = function( bob ) {
         // Do this second.
         {
             task: 'copy',
-            enabled: true,
             do: function(){
                 // Create promises here.
             }
         }
     ]);
+    
+    return job.batch;
 };// /exports()
 ```
+
+For more see [the builder-bob wiki](https://github.com/lucentminds/builder-bob/wiki).
+
+## TODO
+
+* Make it so that if a build job is running, it MUST complete before allowing another to run. This is because of file contention issues. So make a combo throttle/debouncer to wait until previous job is complete before allowing the latest request.

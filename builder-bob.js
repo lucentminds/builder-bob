@@ -15,15 +15,15 @@
 var util = require( './lib/bob-util.js' );
 var Batch = require( './lib/bob-batch.js' );
 
-module.exports = bob();
-
 /**
  * Creates a new "instance" of bob.
  */
-function bob() {
-    var self = bob;
+var bob = function() {
+    var self = function(){
+        return bob.apply( this, arguments );
+    };// /self()
 
-    util.extend( self, Batch.apply( self, arguments ) );
+    Object.assign( self, Batch.apply( this, arguments ) );
 
     self.log = function(){
         return util.log.apply( this, arguments );
@@ -34,4 +34,8 @@ function bob() {
     };// /watch()
 
     return self;
-}// /bob()
+}// /generateBob()
+
+
+
+module.exports = bob();

@@ -16,4 +16,4 @@ var bob = require( '../builder-bob' );
 var batch = require( './bobfile.js' )( bob );
 
 
-batch.getJob( 'build' ).run();
+batch.getJob( 'watch' ).run();

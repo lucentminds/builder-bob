@@ -14,23 +14,23 @@
 
 var util = require( './lib/bob-util.js' );
 var Batch = require( './lib/bob-batch.js' );
-var Bob = module.exports = {};
+var bob = module.exports = generate();
 
+/**
+ * Creates a new "instance" of bob.
+ */
+function generate() {
+    var self = Batch();
 
-Bob.createBatch = function(){
-    var self = Batch.apply( this, arguments );
+    self.generate = generate;
+
+    self.log = function(){
+        return util.log.apply( this, arguments );
+    };// /log()
+
+    self.watch = function(){
+        return util.watch.apply( this, arguments );
+    };// /watch()
+
     return self;
-};// /createBatch()
-
-Bob.createJob = function(){
-    var batch = Bob.createBatch();
-    return batch.createJob.apply( batch, arguments );
-};// /createJob()
-
-Bob.watch = function(){
-    return util.watch.apply( this, arguments );
-};// /watch()
-
-Bob.log = function(){
-    return util.log.apply( this, arguments );
-};// /log()
+}// /generate()

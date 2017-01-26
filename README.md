@@ -32,7 +32,8 @@ module.exports = function( bob ) {
         return deferred.promise;
     });
 
-    return job.batch;
+    // Always return bob. :)
+    return bob;
 };// /exports()
 ```
 
@@ -61,7 +62,8 @@ module.exports = function( bob ) {
         }
     ]);
     
-    return job.batch;
+    // Always return bob. :)
+    return bob;
 };// /exports()
 ```
 
@@ -70,3 +72,4 @@ For more see [the builder-bob wiki](https://github.com/lucentminds/builder-bob/w
 ## TODO
 
 * Make it so that if a build job is running, it MUST complete before allowing another to run. This is because of file contention issues. So make a combo throttle/debouncer to wait until previous job is complete before allowing the latest request.
+* Develop a spiffy CLI for bob.

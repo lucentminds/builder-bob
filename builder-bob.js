@@ -6,7 +6,7 @@
 /** List jshint ignore directives here. **/
 /* jslint node: true */
 /* jshint esversion: 6 */
-/*eslint-env es6*/
+/* eslint-env es6 */
 
 
 // Stop jshint from complaining about the promise.catch() syntax.
@@ -14,15 +14,16 @@
 
 var util = require( './lib/bob-util.js' );
 var Batch = require( './lib/bob-batch.js' );
-var bob = module.exports = generate();
+
+module.exports = bob();
 
 /**
  * Creates a new "instance" of bob.
  */
-function generate() {
-    var self = Batch();
+function bob() {
+    var self = bob;
 
-    self.generate = generate;
+    util.extend( self, Batch.apply( self, arguments ) );
 
     self.log = function(){
         return util.log.apply( this, arguments );
@@ -33,4 +34,4 @@ function generate() {
     };// /watch()
 
     return self;
-}// /generate()
+}// /bob()

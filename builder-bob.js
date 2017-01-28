@@ -23,14 +23,29 @@ var bob = function() {
         return bob.apply( this, arguments );
     };// /self()
 
-    Object.assign( self, Batch.apply( this, arguments ) );
+
+    util.extend( self, Batch.apply( this, arguments ) );
 
     self.log = function(){
         return util.log.apply( this, arguments );
     };// /log()
 
-    self.watch = function(){
-        return util.watch.apply( this, arguments );
+    self.watch = function( cWatchPath ){
+    
+        // Setup the watcher.
+        return util.watch( cWatchPath, function( cPathChanged ){
+            // Emit the "change" event.
+            self.emit( 'change', self, cPathChanged );
+        })
+        .then(function(){
+            return self;
+        });
+
+    };// /watch()
+
+
+    Batch.prototypes.cwd = function( cCachePath ){
+        this._cwd = cCachePath;
     };// /watch()
 
     return self;

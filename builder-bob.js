@@ -47,8 +47,6 @@ var bob = function() {
     };// /cwd()
 
     return self;
-}// /generateBob()
-
-
+};// /generateBob()
 
 module.exports = bob();

@@ -1,4 +1,4 @@
-/** 
+/**
  * 12-22-2016
  * ~~ Scott Johnson
  */
@@ -23,7 +23,6 @@ var bob = function() {
         return bob.apply( this, arguments );
     };// /self()
 
-
     util.extend( self, Batch.apply( this, arguments ) );
 
     self.log = function(){
@@ -31,7 +30,7 @@ var bob = function() {
     };// /log()
 
     self.watch = function( cWatchPath ){
-    
+
         // Setup the watcher.
         return util.watch( cWatchPath, function( cPathChanged ){
             // Emit the "change" event.
@@ -43,10 +42,9 @@ var bob = function() {
 
     };// /watch()
 
-
     Batch.prototypes.cwd = function( cCachePath ){
         this._cwd = cCachePath;
-    };// /watch()
+    };// /cwd()
 
     return self;
 }// /generateBob()

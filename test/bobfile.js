@@ -10,7 +10,6 @@
 
 // Stop jshint from complaining about the promise.catch() syntax.
 /* jslint -W024 */
-var Q = require( 'q' );
 // var copy = require( 'promise-file-copy' );
 // var concat = require( 'promise-file-concat' );
 // var read = require( 'promise-file-read' );
@@ -27,28 +26,20 @@ var build = module.exports = function( bob ){ // jshint ignore:line
     oJobBuild.addTask( 'task1', {
         enabled: false,
         do: function(){
-            var deferred = Q.defer();
-
-            console.log( '\nRunning task1...' );
-
-            //throw new Error( 'Bork!' );
-
-            setTimeout( deferred.resolve, 3000 );
-
-            return deferred.promise;
+            return new Promise(( resolve ) => {
+                console.log( '\nRunning task1...' );
+                setTimeout( resolve(), 3000 );
+            });
         }// /do()
     });
 
     oJobBuild.addTask( 'task2', {
         enabled: true,
         do: function(){
-            var deferred = Q.defer();
-
-            console.log( '\nRunning task2...' );
-
-            setTimeout( deferred.resolve, 3000 );
-
-            return deferred.promise;
+            return new Promise(( resolve ) => {
+                console.log( '\nRunning task2...' );
+                setTimeout( resolve(), 3000 );
+            });
         }// /do()
     });
 

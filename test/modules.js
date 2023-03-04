@@ -12,7 +12,6 @@
 // Stop jshint from complaining about the promise.catch() syntax.
 /* jslint -W024 */
 
-var Q = require( 'q' );
 var glob = require( 'promise-file-glob' );
 var resolve = require( 'promise-resolve-path' );
 var bob = require( '../builder-bob' );
@@ -47,9 +46,7 @@ glob( './test/folder/**/bobfile.js' )
 
         }// /for()
 
-        // https://github.com/kriskowal/q/wiki/API-Reference#promise-for-array-methods
-        return Q.all( aProm );
-
+        return Promise.all( aProm );
     });
     
     bob.getJob( 'build' ).run();

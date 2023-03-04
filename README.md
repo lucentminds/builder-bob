@@ -8,28 +8,22 @@ npm install git+https://github.com/lucentminds/builder-bob.git
 ## Example bobfile
 
 ```js
-var Q = require( 'q' );
-
 module.exports = function( bob ) {
         
-    var job = bob.createJob( 'build' );
+    const job = bob.createJob( 'build' );
 
     // Do this first.
-    job.addTask( 'empty', function(){
-        var deferred = Q.defer();
-
-        setTimeout( deferred.resolve, 1000 );
-
-        return deferred.promise;
+    job.addTask( 'step_1', function(){
+        return new Promise(( resolve ) => {
+            console.log( '\nRunning step_1...' );
+            setTimeout( resolve( 'foo' ), 3000 );
+        });
     });
 
     // Do this second.
-    job.addTask( 'copy', function(){
-        var deferred = Q.defer();
-
-        deferred.resolve();
-
-        return deferred.promise;
+    job.addTask( 'step_2', function( previous_result, next ){
+        console.log( `${previous_result} bar` ) // foo bar
+        return next();
     });
 
     // Always return bob. :)
@@ -42,7 +36,7 @@ Or all at once.
 ```js
 module.exports = function( bob ) {
         
-    var job = bob.createJob( 'task' );
+    const job = bob.createJob( 'task' );
 
     job.setTasks([
         // Do this first.
@@ -50,7 +44,7 @@ module.exports = function( bob ) {
             task: 'empty',
             do: function(){
                 // Create promises here.
-            }
+            },
         },
         
         // Do this second.
@@ -58,8 +52,8 @@ module.exports = function( bob ) {
             task: 'copy',
             do: function(){
                 // Create promises here.
-            }
-        }
+            },
+        },
     ]);
     
     // Always return bob. :)
